@@ -1,5 +1,5 @@
 
-# mattergen
+# ff_trainer
 
 Generate configuration sets for DFT fine‑tuning of an MD force field (e.g., MatterSim), starting from a given structure.
 It reproduces the workflow in your Jupyter notebook but organizes it as a modular, reusable package.
@@ -19,5 +19,5 @@ It reproduces the workflow in your Jupyter notebook but organizes it as a modula
 ## Quickstart
 ```bash
 pip install -e .
-mattergen \  --input structure.cif \  --output out_dir \  --supercell 2 2 2 \  --random-n 100 --random-sigma 0.1 \  --lattice-m 50 --lattice-span 0.05 \  --vacancy-k 20 --vacancy-species O --vacancy-sigma 0.05 \  --mattersim-ckpt MatterSim-v1.0.0-5M.pth \  --qe-pseudo Si:Si.pbe-n-kjpaw_psl.1.0.0.UPF O:O.pbe-n-kjpaw_psl.1.0.0.UPF \  --qe-ecutwfc 60 --qe-ecutrho 480
+ff_trainer \  --input structure.cif \  --output out_dir \  --supercell 2 2 2 \  --random-n 100 --random-sigma 0.1 \  --lattice-m 50 --lattice-span 0.05 \  --vacancy-k 20 --vacancy-species O --vacancy-sigma 0.05 \  --mattersim-ckpt MatterSim-v1.0.0-5M.pth \  --qe-pseudo Si:Si.pbe-n-kjpaw_psl.1.0.0.UPF O:O.pbe-n-kjpaw_psl.1.0.0.UPF \  --qe-ecutwfc 60 --qe-ecutrho 480
 ```

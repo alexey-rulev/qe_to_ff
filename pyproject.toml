@@ -4,7 +4,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "mattergen"
+name = "ff_trainer"
 version = "0.1.2"
 description = "Generate DFT fine-tuning configurations and post-process QE outputs."
 authors = [{name = "ChatGPT"}]
@@ -13,8 +13,8 @@ requires-python = ">=3.9"
 dependencies = ["numpy", "matplotlib", "ase>=3.22.1"]
 
 [tool.setuptools]
-packages = ["mattergen"]
+packages = ["ff_trainer"]
 
 [project.scripts]
-mattergen = "mattergen.cli:main"
-mattergen-post = "mattergen.cli_post:main"
+ff-trainer = "ff_trainer.cli:main"
+ff-trainer-post = "ff_trainer.cli_post:main"
