@@ -64,21 +64,12 @@ def collect_and_compare(
         at = read_qe_out_to_atoms(str(f))
         e_qe = _qe_energy(at)
 
-        at = at.copy()
-        at.info["source_out"] = str(f)
-        if e_qe is not None:
-            at.info["energy_qe"] = float(e_qe)
-
         e_ms = None
         f_ms = None
         if calc is not None:
             at_ms = at.copy()
             at_ms.calc = calc
             e_ms, f_ms = compute_energy_forces(at_ms)
-            if e_ms is not None:
-                at.info["energy_ms"] = float(e_ms)
-            if include_forces and f_ms is not None:
-                at.arrays["forces_ms"] = f_ms
 
         frames.append(at)
         qe_E.append(e_qe if e_qe is not None else np.nan)

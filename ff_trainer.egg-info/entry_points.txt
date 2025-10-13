@@ -1,0 +1,3 @@
+[console_scripts]
+ff-trainer = ff_trainer.cli:main
+ff-trainer-post = ff_trainer.cli_post:main
