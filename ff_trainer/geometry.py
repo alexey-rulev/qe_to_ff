@@ -1,10 +1,6 @@
 
-from typing import Tuple, List
 import numpy as np
 from ase import Atoms
-
-def build_supercell(atoms: Atoms, sc: Tuple[int, int, int]) -> Atoms:
-    return atoms.repeat(sc)
 
 def random_displacements(atoms: Atoms, sigma: float, rng: np.random.Generator) -> Atoms:
     out = atoms.copy()
