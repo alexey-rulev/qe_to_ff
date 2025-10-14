@@ -21,3 +21,5 @@ It reproduces the workflow in your Jupyter notebook but organizes it as a modula
 pip install -e .
 ff_trainer \  --input structure.cif \  --output out_dir \  --supercell 2 2 2 \  --random-n 100 --random-sigma 0.1 \  --lattice-m 50 --lattice-span 0.05 \  --vacancy-k 20 --vacancy-species O --vacancy-sigma 0.05 \  --mattersim-ckpt MatterSim-v1.0.0-5M.pth \  --qe-pseudo Si:Si.pbe-n-kjpaw_psl.1.0.0.UPF O:O.pbe-n-kjpaw_psl.1.0.0.UPF \  --qe-ecutwfc 60 --qe-ecutrho 480
 ```
+## Submitting calculations
+there is a script submit_qe_configs.py that submits all the configurations as jobs to SLURM scheduler. You need to add the script and a QE pw.in file template with all the parameters in the directory. The script copies the geometry, nat and ntyp from the generated configurations into the template and submits jobs. Modify if needed to match your infrastructure.
