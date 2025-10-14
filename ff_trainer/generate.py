@@ -5,8 +5,9 @@ import numpy as np
 from ase.io import read
 from ase.io.espresso import read_espresso_in
 from ase import Atoms
+from ase.build import make_supercell
 from ase.geometry import cell_to_cellpar
-from .geometry import build_supercell, random_displacements, lattice_scan_series
+from .geometry import random_displacements, lattice_scan_series
 from .vacancies import random_vacancy
 from .mattersim_wrapper import build_calculator, compute_energy_forces
 from .io_qe import write_qe_input
@@ -41,7 +42,7 @@ def generate_all(
     rng = np.random.default_rng(rng_seed)
     with open(input_structure, 'r') as in_file:
         base = read_espresso_in(in_file)
-    base_sc = build_supercell(base, supercell)
+    base_sc = make_supercell(base, np.diag(supercell))
     a0 = cell_to_cellpar(base_sc.cell)[0]
 
     calc = build_calculator(mattersim_ckpt, device=device, include_forces=True)
