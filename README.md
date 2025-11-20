@@ -19,6 +19,9 @@ It reproduces the workflow in your Jupyter notebook but organizes it as a modula
 ## Quickstart
 ```bash
 pip install -e .
+```
+## Generate configurations:
+```bash
 ff_trainer \  --input structure.cif \  --output out_dir \  --supercell 2 2 2 \  --random-n 100 --random-sigma 0.1 \  --lattice-m 50 --lattice-span 0.05 \  --vacancy-k 20 --vacancy-species O --vacancy-sigma 0.05 \  --mattersim-ckpt MatterSim-v1.0.0-5M.pth \  --qe-pseudo Si:Si.pbe-n-kjpaw_psl.1.0.0.UPF O:O.pbe-n-kjpaw_psl.1.0.0.UPF \  --qe-ecutwfc 60 --qe-ecutrho 480
 ```
 ## Submitting calculations
@@ -26,4 +29,12 @@ there is a script submit_qe_configs.py that submits all the configurations as jo
 ```bash
 python submit_qe_configs.py --template template.in --inputs "*.in"
 ```
-assuming that the submit script, template and generated .in files are in the same directory
+assuming that the submit script, template and generated .in files are in the same directory. Be careful with the paths to pseudopotentials.
+## Post-process
+Post-processing script reads all .out files, and collects them into a single extxyz file (and runs some preliminary statistics):
+```bash
+ff-trainer-post --dirs <dir with .out files> --plot ./ms_vs_qe.png --mattersim-ckpt mattersim-v1.0.0-5M.pth --device cpu --out-extxyz vac.extxyz
+```
+the .out files may be in the subdirectories, the script will find them. Caution with slurm .out files (or any other .out files), they will confuse the script, so they should be deleted.
+
+
