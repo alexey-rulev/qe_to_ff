@@ -15,6 +15,18 @@ It reproduces the workflow in your Jupyter notebook but organizes it as a modula
   - Violin plots of pair distance distributions (PBC-aware, cutoff configurable)
   - Distributions of energies per configuration group
   - Total potential energy vs. lattice parameter for the lattice-scan set
+ 
+## Workflow
+The script is intended for building the initial rough training set for fine tuning. The intended workflow is following:
+- You get your (optimized) unit cell configuration
+- The script generates set of configurations:
+  - supercells with random displacements
+  - undisturbed cell with varied lattice parameter (EOS)
+  - supercell with specified vacancies and random displacements
+- The generated configuraitons carry mostly structural information. For each configuration, user must prepare a template with all the parameters like cutoff energies, Hubbard parameters etc.
+- The template, the configurations and submit script (must be adapted to your cluster) are uploaded to the computational cluster
+- The submit script takes most parameters from the template, and only nat, ntyp and cell and atom geometry from configuration files (so for example kpoints should be supplied in template), and submits single-point calculations.
+- the results are collected and post-processed with a post-process script, that takes all the relaxed geometries, calculated forces and energies and writes it to a single extended xyz file, that can later be used for fine tuning the model.
 
 ## Quickstart
 ```bash
