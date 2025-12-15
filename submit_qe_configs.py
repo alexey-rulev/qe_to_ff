@@ -378,10 +378,12 @@ def main():
         out_out = out_in_dir / f"conf_{tag}.out"
         out_sh = out_slurm_dir / f"submit-{tag}.sh"
 
-        # optional prefix override per conf
-        prefix_override = None
+        # Always generate unique prefix based on filename or user override
         if args.override_prefix:
             prefix_override = f"{args.override_prefix}_{tag}"
+        else:
+            # Use the output filename stem as unique prefix
+            prefix_override = out_in.stem
 
         # splice and write .in
         merged = splice_template_with_geometry(tmpl, geom, override_prefix=prefix_override)

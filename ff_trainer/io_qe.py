@@ -21,7 +21,8 @@ def write_qe_input(
 ):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-
+    if pseudo_map is None:
+        pseudo_map = {element: "PLACEHOLDER" for element in set(atoms.get_chemical_symbols())}
     params = dict(
         pseudopotentials=pseudo_map or {},
         kpts=kpts or DEFAULT_KPTS,

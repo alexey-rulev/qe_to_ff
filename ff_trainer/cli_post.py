@@ -10,6 +10,11 @@ def main():
     p.add_argument("--mattersim-ckpt", default=None, help="MatterSim checkpoint (optional)")
     p.add_argument("--device", default="cuda", help="'cuda' or 'cpu'")
     p.add_argument("--no-forces", action="store_true", help="Also store MatterSim forces")
+    p.add_argument(
+        "--skip-missing-forces",
+        action="store_true",
+        help="Skip QE outputs where forces could not be read",
+    )
     args = p.parse_args()
 
     res = collect_and_compare(
@@ -19,7 +24,11 @@ def main():
         device=args.device,
         include_forces=not args.no_forces,
         plot_path=args.plot,
+        skip_missing_forces=args.skip_missing_forces,
     )
     print(f"Wrote {res['n']} frames to {res['extxyz']}")
     if res.get("plot"):
         print(f"Saved plot to {res['plot']}")
+    skipped = res.get("skipped") or []
+    if skipped:
+        print(f"Skipped {len(skipped)} files without forces")

@@ -33,11 +33,14 @@ def collect_and_compare(
     device: str = "cuda",
     include_forces: bool = True,
     plot_path: Optional[str] = None,
+    skip_missing_forces: bool = False,
 ) -> Dict[str, Any]:
     """
     Scan directories for QE *.out, parse with qe_out_reader.read_qe_out_to_atoms,
     aggregate into a single extended XYZ, compute MatterSim energies (optional),
     and plot MatterSim vs QE energies.
+
+    If skip_missing_forces is True, configurations lacking QE forces are ignored.
     """
     # Discover .out files
     files: List[Path] = []
@@ -60,9 +63,20 @@ def collect_and_compare(
     qe_E: List[float] = []
     ms_E: List[float] = []
 
+    skipped: List[str] = []
+
     for f in files:
         at = read_qe_out_to_atoms(str(f))
         e_qe = _qe_energy(at)
+
+        has_forces = False
+        calc_results = getattr(getattr(at, "calc", None), "results", None)
+        if isinstance(calc_results, dict) and calc_results.get("forces") is not None:
+            has_forces = True
+
+        if skip_missing_forces and not has_forces:
+            skipped.append(str(f))
+            continue
 
         e_ms = None
         f_ms = None
@@ -116,4 +130,5 @@ def collect_and_compare(
         "files": [str(f) for f in files],
         "extxyz": str(out_path),
         "plot": str(plot_file) if plot_path is not None else None,
+        "skipped": skipped,
     }
